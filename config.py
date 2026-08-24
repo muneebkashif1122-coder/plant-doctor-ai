@@ -22,7 +22,7 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 PLANTNET_API_URL = "https://my-api.plantnet.org/v2/identify/all"
 
 # Groq model name -- the LLM that will generate the care guide for us
-GROQ_MODEL = "llama-3.3-70b-versatile"
+GROQ_MODEL = "openai/gpt-oss-20b"
 
 # Safety check: if any key is missing, raise a clear error immediately
 # (this avoids confusing errors later while the app is running)
