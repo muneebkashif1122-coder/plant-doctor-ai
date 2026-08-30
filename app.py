@@ -15,27 +15,6 @@ st.set_page_config(
     layout="wide"
 )
 
-
-# def get_svg_as_base64(file_path):
-#     """
-#     Reads an SVG file as TEXT (not binary) and converts it to base64.
-#     This avoids encoding issues on Linux/Cloud environments.
-#     """
-#     try:
-#         with open(file_path, "r", encoding="utf-8") as f:
-#             svg_text = f.read()
-#         # Convert the text string to bytes, then base64 encode
-#         encoded = base64.b64encode(svg_text.encode("utf-8")).decode("utf-8")
-#         return f"data:image/svg+xml;base64,{encoded}"
-#     except Exception:
-#         # If SVG fails to load, use emoji fallback
-#         return None
-
-
-# # Use SVG if available, otherwise fallback to emoji
-# camera_icon_uri = get_svg_as_base64("asset/camera-svgrepo-com.svg") or "📷"
-# search_icon_uri = get_svg_as_base64("asset/search-alt-2-svgrepo-com.svg") or "🔍"
-
 # ----- Custom Styling -----
 st.markdown(f"""
 <style>
@@ -202,7 +181,12 @@ st.markdown(f"""
         font-weight: 500 !important;
     }}
 
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] {{
+    /* ===== SEARCH BAR — both possible Streamlit DOM shapes are targeted
+       (older versions use class "element-container", newer ones use
+       data-testid="stElementContainer") so this keeps working across
+       Streamlit updates. ===== */
+    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"],
+    div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] {{
         gap: 0 !important;
         background-color: #FFFFFF;
         border: 2px solid #E4DCC8;
@@ -219,20 +203,23 @@ st.markdown(f"""
         z-index: 999;
     }}
 
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput > div > div > input {{
+    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput > div > div > input,
+    div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput > div > div > input {{
         border: none !important;
         background: transparent !important;
         box-shadow: none !important;
         border-radius: 0 !important;
     }}
 
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {{
+    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"],
+    div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {{
         background: transparent !important;
     }}
 
     @media (max-width: 768px) {{
-        /* ----- SEARCH BAR - FORCE SINGLE ROW ----- */
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] {{
+        /* ----- SEARCH BAR — FORCE SINGLE ROW ----- */
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"],
+        div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] {{
             display: flex !important;
             flex-direction: row !important;
             flex-wrap: nowrap !important;
@@ -251,33 +238,39 @@ st.markdown(f"""
             box-shadow: 0 4px 16px rgba(0,0,0,0.1) !important;
         }}
 
-        /* Saare columns ko auto width do */
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {{
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"],
+        div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {{
             flex: 0 1 auto !important;
             min-width: 0 !important;
             width: auto !important;
         }}
 
-        /* Camera column - 2.6rem */
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(1) {{
+        /* Camera column */
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(1),
+        div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(1) {{
             flex: 0 0 2.6rem !important;
         }}
 
-        /* Input column - baki jagah le le */
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(2) {{
+        /* Input column — takes remaining space */
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(2),
+        div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(2) {{
             flex: 1 1 auto !important;
+            min-width: 0 !important;
         }}
 
-        /* Send column - 3.2rem */
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(3) {{
+        /* Send column */
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(3),
+        div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(3) {{
             flex: 0 0 3.2rem !important;
         }}
 
-        /* Text Input ko andar fit karo */
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput {{
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput,
+        div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput {{
             width: 100% !important;
         }}
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput input {{
+
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput input,
+        div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput input {{
             width: 100% !important;
             min-width: 0 !important;
             padding: 0.5rem 0.3rem !important;
@@ -288,7 +281,8 @@ st.markdown(f"""
         }}
 
         /* Camera button */
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] > button {{
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] > button,
+        div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] > button {{
             width: 2.4rem !important;
             height: 2.4rem !important;
             padding: 0 !important;
@@ -296,12 +290,15 @@ st.markdown(f"""
             background: transparent !important;
             box-shadow: none !important;
         }}
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] button p {{
+
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] button p,
+        div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] button p {{
             font-size: 1.2rem !important;
         }}
 
         /* Send button */
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stButton > button {{
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stButton > button,
+        div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stButton > button {{
             width: 2.8rem !important;
             min-width: 2.8rem !important;
             height: 2.4rem !important;
@@ -312,6 +309,63 @@ st.markdown(f"""
             color: white !important;
             border: none !important;
         }}
+    }}
+
+    .result-header {{
+        background-color: #FFFFFF;
+        border: 1px solid #ECE4D3;
+        border-radius: 16px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }}
+
+    .result-plant-name {{
+        font-family: 'Playfair Display', serif;
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #2D3B2D;
+    }}
+
+    .result-scientific-name {{
+        font-family: 'Karla', sans-serif;
+        font-style: italic;
+        color: #8A9389;
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }}
+
+    .confidence-badge {{
+        display: inline-block;
+        background-color: #EAF2EC;
+        color: #4A7856;
+        font-family: 'Karla', sans-serif;
+        font-weight: 600;
+        font-size: 0.8rem;
+        padding: 0.25rem 0.7rem;
+        border-radius: 20px;
+    }}
+
+    .care-item {{
+        background-color: #FFFFFF;
+        border: 1px solid #ECE4D3;
+        border-radius: 12px;
+        padding: 1rem 1.2rem;
+        margin-bottom: 0.7rem;
+    }}
+
+    .care-label {{
+        font-family: 'Karla', sans-serif;
+        font-weight: 700;
+        color: #2D3B2D;
+        font-size: 0.9rem;
+        margin-bottom: 0.2rem;
+    }}
+
+    .care-value {{
+        font-family: 'Karla', sans-serif;
+        color: #5C6B5D;
+        font-size: 0.9rem;
+        line-height: 1.4;
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -456,48 +510,6 @@ def show_home_screen():
 
 
 # ----- Reusable: Care Guide Display -----
-def display_care_guide(common_name, scientific_name, confidence, care_guide):
-    """
-    Renders a plant's identity + full AI-generated care guide in styled cards.
-    Reused by the Upload, Camera, and Search Results screens.
-    """
-    confidence_html = (
-        f'<span class="confidence-badge">{confidence}% match</span>'
-        if confidence is not None else ""
-    )
-
-    st.markdown(f"""
-    <div class="result-header">
-        <div class="result-plant-name">🌿 {common_name}</div>
-        <div class="result-scientific-name">{scientific_name}</div>
-        {confidence_html}
-    </div>
-    """, unsafe_allow_html=True)
-
-    field_display = {
-        "water_requirement": ("💧", "Water"),
-        "sunlight": ("☀️", "Sunlight"),
-        "soil_type": ("🌱", "Soil Type"),
-        "temperature": ("🌡️", "Temperature"),
-        "fertilizer": ("🪴", "Fertilizer"),
-        "pruning_tips": ("✂️", "Pruning Tips"),
-        "common_diseases": ("🐛", "Common Diseases"),
-        "toxicity": ("⚠️", "Toxicity"),
-        "flowering_season": ("🌼", "Flowering Season"),
-        "humidity": ("🫧", "Humidity"),
-        "best_growing_conditions": ("📍", "Best Growing Conditions"),
-        "interesting_fact": ("💡", "Interesting Fact"),
-    }
-
-    for key, (icon, label) in field_display.items():
-        value = care_guide.get(key, "N/A")
-        st.markdown(f"""
-        <div class="care-item">
-            <div class="care-label">{icon} {label}</div>
-            <div class="care-value">{value}</div>
-        </div>
-        """, unsafe_allow_html=True)
-
 def display_care_guide(common_name, scientific_name, confidence, care_guide):
     """
     Renders a plant's identity + full AI-generated care guide in styled cards.
