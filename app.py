@@ -211,13 +211,20 @@ st.markdown(f"""
         border-radius: 0 !important;
     }}
 
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"],
-    div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {{
+    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"],
+    div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"] {{
         background: transparent !important;
     }}
 
     @media (max-width: 768px) {{
-        /* ----- SEARCH BAR — FORCE SINGLE ROW ----- */
+        /* ----- SEARCH BAR — FORCE SINGLE ROW -----
+           These selectors are scoped to "the stHorizontalBlock that
+           comes right after the search-bar-marker div", not to "the
+           Nth stHorizontalBlock on the page". The home screen has other
+           st.columns() rows above this one (the feature cards), which
+           are also stHorizontalBlock elements — an index-based selector
+           would grab the wrong row. The marker-based selector always
+           finds the right one regardless of what comes before it. */
         div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"],
         div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] {{
             display: flex !important;
@@ -228,40 +235,42 @@ st.markdown(f"""
             background-color: #FFFFFF !important;
             border: 2px solid #E4DCC8 !important;
             border-radius: 28px !important;
-            padding: 0.2rem 0.5rem !important;
+            padding: 0.15rem 0.3rem !important;
             position: fixed !important;
-            bottom: 0.8rem !important;
-            left: 5% !important;
-            width: 90vw !important;
-            max-width: 90vw !important;
+            bottom: 0.5rem !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            width: 96vw !important;
+            max-width: 96vw !important;
+            box-sizing: border-box !important;
             z-index: 999 !important;
             box-shadow: 0 4px 16px rgba(0,0,0,0.1) !important;
         }}
 
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"],
-        div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {{
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"],
+        div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"] {{
             flex: 0 1 auto !important;
             min-width: 0 !important;
             width: auto !important;
         }}
 
         /* Camera column */
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(1),
-        div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(1) {{
-            flex: 0 0 2.6rem !important;
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"]:nth-child(1),
+        div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"]:nth-child(1) {{
+            flex: 0 0 2.4rem !important;
         }}
 
         /* Input column — takes remaining space */
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(2),
-        div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(2) {{
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"]:nth-child(2),
+        div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"]:nth-child(2) {{
             flex: 1 1 auto !important;
             min-width: 0 !important;
         }}
 
         /* Send column */
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(3),
-        div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(3) {{
-            flex: 0 0 3.2rem !important;
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"]:nth-child(3),
+        div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"]:nth-child(3) {{
+            flex: 0 0 2.8rem !important;
         }}
 
         div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput,
@@ -273,8 +282,9 @@ st.markdown(f"""
         div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput input {{
             width: 100% !important;
             min-width: 0 !important;
-            padding: 0.5rem 0.3rem !important;
-            font-size: 0.85rem !important;
+            height: 2.4rem !important;
+            padding: 0.3rem 0.4rem !important;
+            font-size: 0.8rem !important;
             border: none !important;
             background: transparent !important;
             box-shadow: none !important;
@@ -283,8 +293,9 @@ st.markdown(f"""
         /* Camera button */
         div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] > button,
         div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] > button {{
-            width: 2.4rem !important;
-            height: 2.4rem !important;
+            width: 2.2rem !important;
+            height: 2.2rem !important;
+            min-width: 2.2rem !important;
             padding: 0 !important;
             border: none !important;
             background: transparent !important;
@@ -293,21 +304,30 @@ st.markdown(f"""
 
         div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] button p,
         div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] button p {{
-            font-size: 1.2rem !important;
+            font-size: 1.1rem !important;
         }}
 
-        /* Send button */
+        /* Send button — icon-only circle with an arrow, like ChatGPT/Gemini */
         div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stButton > button,
         div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stButton > button {{
-            width: 2.8rem !important;
-            min-width: 2.8rem !important;
-            height: 2.4rem !important;
-            padding: 0 !important;
-            font-size: 0.7rem !important;
-            border-radius: 20px !important;
             background-color: #2D3B2D !important;
-            color: white !important;
+            color: #FFFFFF !important;
             border: none !important;
+            border-radius: 50% !important;
+            width: 2.4rem !important;
+            height: 2.4rem !important;
+            min-width: 2.4rem !important;
+            padding: 0 !important;
+            font-size: 0 !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='22' y1='2' x2='11' y2='13'%3E%3C/line%3E%3Cpolygon points='22 2 15 22 11 13 2 9 22 2'/%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
+            background-position: center !important;
+            background-size: 14px 14px !important;
+        }}
+
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stButton > button p,
+        div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stButton > button p {{
+            display: none !important;
         }}
     }}
 
