@@ -18,17 +18,23 @@ st.set_page_config(
 
 def get_svg_as_base64(file_path):
     """
-    Reads an SVG file from disk and converts it into a base64 data URI
-    that can be embedded directly in CSS (as a background-image).
+    Reads an SVG file as TEXT (not binary) and converts it to base64.
+    This avoids encoding issues on Linux/Cloud environments.
     """
-    with open(file_path, "rb") as f:
-        svg_bytes = f.read()
-    encoded = base64.b64encode(svg_bytes).decode("utf-8")
-    return f"data:image/svg+xml;base64,{encoded}"
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            svg_text = f.read()
+        # Convert the text string to bytes, then base64 encode
+        encoded = base64.b64encode(svg_text.encode("utf-8")).decode("utf-8")
+        return f"data:image/svg+xml;base64,{encoded}"
+    except Exception:
+        # If SVG fails to load, use emoji fallback
+        return None
 
 
-camera_icon_uri = get_svg_as_base64("asset/camera-svgrepo-com.svg")
-search_icon_uri = get_svg_as_base64("asset/search-alt-2-svgrepo-com.svg")
+# Use SVG if available, otherwise fallback to emoji
+camera_icon_uri = get_svg_as_base64("asset/camera-svgrepo-com.svg") or "📷"
+search_icon_uri = get_svg_as_base64("asset/search-alt-2-svgrepo-com.svg") or "🔍"
 
 # ----- Custom Styling -----
 st.markdown(f"""
