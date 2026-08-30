@@ -236,82 +236,47 @@ st.markdown(f"""
             width: 92vw !important;
             max-width: 92vw !important;
             bottom: 1rem !important;
-            flex-wrap: wrap !important;
-            row-gap: 0.4rem !important;
+            flex-wrap: nowrap !important;
+            gap: 0 !important;
         }}
 
         div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(1) {{
-            flex: 0 0 15% !important;
+            flex: 0 0 auto !important;
+            width: 2.8rem !important;
+            min-width: 2.8rem !important;
         }}
 
         div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(2) {{
-            flex: 0 0 82% !important;
+            flex: 1 1 auto !important;
+            width: auto !important;
+            min-width: 0 !important;
         }}
 
         div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(3) {{
-            flex: 0 0 100% !important;
+            flex: 0 0 auto !important;
+            width: 3.6rem !important;
+            min-width: 3.6rem !important;
+        }}
+
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] > button {{
+            width: 2.6rem !important;
+            min-width: 2.6rem !important;
+            height: 2.6rem !important;
+        }}
+
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput input {{
+            padding: 0.6rem 0.5rem !important;
+            font-size: 0.85rem !important;
         }}
 
         div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stButton > button {{
-            width: 100% !important;
-            border-radius: 20px !important;
+            width: 3.4rem !important;
+            min-width: 3.4rem !important;
+            height: 2.6rem !important;
+            padding: 0 !important;
+            font-size: 0.75rem !important;
+            border-radius: 24px !important;
         }}
-    }}
-    .result-header {{
-        background-color: #FFFFFF;
-        border: 1px solid #ECE4D3;
-        border-radius: 16px;
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
-    }}
-
-    .result-plant-name {{
-        font-family: 'Playfair Display', serif;
-        font-size: 1.8rem;
-        font-weight: 600;
-        color: #2D3B2D;
-    }}
-
-    .result-scientific-name {{
-        font-family: 'Karla', sans-serif;
-        font-style: italic;
-        color: #8A9389;
-        font-size: 1rem;
-        margin-bottom: 0.5rem;
-    }}
-
-    .confidence-badge {{
-        display: inline-block;
-        background-color: #EAF2EC;
-        color: #4A7856;
-        font-family: 'Karla', sans-serif;
-        font-weight: 600;
-        font-size: 0.8rem;
-        padding: 0.25rem 0.7rem;
-        border-radius: 20px;
-    }}
-
-    .care-item {{
-        background-color: #FFFFFF;
-        border: 1px solid #ECE4D3;
-        border-radius: 12px;
-        padding: 1rem 1.2rem;
-        margin-bottom: 0.7rem;
-    }}
-
-    .care-label {{
-        font-family: 'Karla', sans-serif;
-        font-weight: 700;
-        color: #2D3B2D;
-        font-size: 0.9rem;
-        margin-bottom: 0.2rem;
-    }}
-
-    .care-value {{
-        font-family: 'Karla', sans-serif;
-        color: #5C6B5D;
-        font-size: 0.9rem;
-        line-height: 1.4;
     }}
 </style>
 """, unsafe_allow_html=True)

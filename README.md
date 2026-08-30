@@ -1,6 +1,6 @@
 # 🌿 Plant Doctor AI
 
-I built this because my mom kept sending me blurry WhatsApp photos of random plants asking "yeh kya hai, isko paani kitna dena hai?" — so I figured, why not let an AI answer that instead of me.
+I built this because my mom kept sending me blurry WhatsApp photos of random plants asking "what is this, how much water does it need?" — so I figured, why not let an AI answer that instead of me.
 
 Plant Doctor AI identifies plants from a photo (or just a name, typed in English, Urdu, or Roman Urdu) and gives you a full care guide — watering, sunlight, soil, common diseases, all of it — generated on the spot.
 
