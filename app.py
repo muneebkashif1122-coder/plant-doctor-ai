@@ -524,6 +524,73 @@ def display_care_guide(common_name, scientific_name, confidence, care_guide):
         </div>
         """, unsafe_allow_html=True)
 
+def display_care_guide(common_name, scientific_name, confidence, care_guide):
+    """
+    Renders a plant's identity + full AI-generated care guide in styled cards.
+    Reused by the Upload, Camera, and Search Results screens.
+    """
+    confidence_html = (
+        f'<span class="confidence-badge">{confidence}% match</span>'
+        if confidence is not None else ""
+    )
+
+    st.markdown(f"""
+    <div class="result-header">
+        <div class="result-plant-name">🌿 {common_name}</div>
+        <div class="result-scientific-name">{scientific_name}</div>
+        {confidence_html}
+    </div>
+    """, unsafe_allow_html=True)
+
+    field_display = {
+        "water_requirement": ("💧", "Water"),
+        "sunlight": ("☀️", "Sunlight"),
+        "soil_type": ("🌱", "Soil Type"),
+        "temperature": ("🌡️", "Temperature"),
+        "fertilizer": ("🪴", "Fertilizer"),
+        "pruning_tips": ("✂️", "Pruning Tips"),
+        "common_diseases": ("🐛", "Common Diseases"),
+        "toxicity": ("⚠️", "Toxicity"),
+        "flowering_season": ("🌼", "Flowering Season"),
+        "humidity": ("🫧", "Humidity"),
+        "best_growing_conditions": ("📍", "Best Growing Conditions"),
+        "interesting_fact": ("💡", "Interesting Fact"),
+    }
+
+    for key, (icon, label) in field_display.items():
+        value = care_guide.get(key, "N/A")
+        st.markdown(f"""
+        <div class="care-item">
+            <div class="care-label">{icon} {label}</div>
+            <div class="care-value">{value}</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # ----- Download Guide Button -----
+    # Build a clean, plain-text version of the guide for downloading.
+    # This is separate from the HTML displayed above -- a text file
+    # shouldn't contain HTML tags or emoji formatting artifacts.
+    guide_text_lines = [
+        f"PLANT DOCTOR AI - CARE GUIDE",
+        f"=" * 40,
+        f"Plant: {common_name}",
+        f"Scientific Name: {scientific_name}",
+        ""
+    ]
+    for key, (icon, label) in field_display.items():
+        value = care_guide.get(key, "N/A")
+        guide_text_lines.append(f"{label}: {value}")
+
+    guide_text = "\n".join(guide_text_lines)
+
+    st.download_button(
+        label="⬇️ Download Guide",
+        data=guide_text,
+        file_name=f"{common_name.replace(' ', '_')}_care_guide.txt",
+        mime="text/plain",
+        use_container_width=True
+    )
+
 
 # ----- Shared: Image Identification Flow (used by Upload and Camera) -----
 def handle_image_identification(image_file):
