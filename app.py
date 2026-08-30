@@ -231,84 +231,73 @@ st.markdown(f"""
     }}
 
     @media (max-width: 768px) {{
+        /* ----- SEARCH BAR - FORCE SINGLE ROW ----- */
         div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] {{
-            position: fixed !important;
-            left: 50% !important;
-            transform: translateX(-50%) !important;
-            bottom: 0.8rem !important;
-            width: 94vw !important;
-            max-width: 94vw !important;
             display: flex !important;
             flex-direction: row !important;
             flex-wrap: nowrap !important;
-            gap: 0.3rem !important;
+            align-items: center !important;
+            gap: 0.2rem !important;
             background-color: #FFFFFF !important;
             border: 2px solid #E4DCC8 !important;
             border-radius: 28px !important;
-            padding: 0.3rem 0.5rem !important;
-            box-shadow: 0 4px 16px rgba(45, 59, 45, 0.12) !important;
+            padding: 0.2rem 0.5rem !important;
+            position: fixed !important;
+            bottom: 0.8rem !important;
+            left: 5% !important;
+            width: 90vw !important;
+            max-width: 90vw !important;
             z-index: 999 !important;
-            align-items: center !important;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1) !important;
         }}
 
-        /* Har column ko exact width do */
+        /* Saare columns ko auto width do */
         div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {{
-            flex: 0 0 auto !important;
-            width: auto !important;
+            flex: 0 1 auto !important;
             min-width: 0 !important;
-            background: transparent !important;
+            width: auto !important;
         }}
 
-        /* Camera column — fixed small */
+        /* Camera column - 2.6rem */
         div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(1) {{
-            width: 2.4rem !important;
-            min-width: 2.4rem !important;
-            max-width: 2.4rem !important;
+            flex: 0 0 2.6rem !important;
         }}
 
-        /* Input column — fills remaining space, but with a max */
+        /* Input column - baki jagah le le */
         div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(2) {{
             flex: 1 1 auto !important;
-            width: auto !important;
-            min-width: 0 !important;
-            max-width: calc(100% - 6rem) !important;
         }}
 
-        /* Send column — fixed small */
+        /* Send column - 3.2rem */
         div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(3) {{
-            width: 3.2rem !important;
-            min-width: 3.2rem !important;
-            max-width: 3.2rem !important;
+            flex: 0 0 3.2rem !important;
         }}
 
-        /* Camera popover button */
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] > button {{
-            width: 2.2rem !important;
-            min-width: 2.2rem !important;
-            height: 2.2rem !important;
-            border: none !important;
-            background: transparent !important;
-            box-shadow: none !important;
-        }}
-
-        /* Camera popover text inside button (emoji) */
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] button p {{
-            font-size: 1.1rem !important;
-            line-height: 1 !important;
-        }}
-
-        /* Text input */
+        /* Text Input ko andar fit karo */
         div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput {{
             width: 100% !important;
         }}
         div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput input {{
-            padding: 0.5rem 0.4rem !important;
+            width: 100% !important;
+            min-width: 0 !important;
+            padding: 0.5rem 0.3rem !important;
             font-size: 0.85rem !important;
             border: none !important;
             background: transparent !important;
             box-shadow: none !important;
-            border-radius: 0 !important;
+        }}
+
+        /* Camera button */
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] > button {{
+            width: 2.4rem !important;
             height: 2.4rem !important;
+            padding: 0 !important;
+            border: none !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }}
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] button p {{
+            font-size: 1.2rem !important;
         }}
 
         /* Send button */
