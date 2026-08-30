@@ -232,50 +232,96 @@ st.markdown(f"""
 
     @media (max-width: 768px) {{
         div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] {{
+            position: fixed !important;
             left: 50% !important;
-            width: 92vw !important;
-            max-width: 92vw !important;
-            bottom: 1rem !important;
+            transform: translateX(-50%) !important;
+            bottom: 0.8rem !important;
+            width: 94vw !important;
+            max-width: 94vw !important;
+            display: flex !important;
+            flex-direction: row !important;
             flex-wrap: nowrap !important;
-            gap: 0 !important;
+            gap: 0.3rem !important;
+            background-color: #FFFFFF !important;
+            border: 2px solid #E4DCC8 !important;
+            border-radius: 28px !important;
+            padding: 0.3rem 0.5rem !important;
+            box-shadow: 0 4px 16px rgba(45, 59, 45, 0.12) !important;
+            z-index: 999 !important;
+            align-items: center !important;
         }}
 
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(1) {{
+        /* Har column ko exact width do */
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {{
             flex: 0 0 auto !important;
-            width: 2.8rem !important;
-            min-width: 2.8rem !important;
+            width: auto !important;
+            min-width: 0 !important;
+            background: transparent !important;
         }}
 
+        /* Camera column — fixed small */
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(1) {{
+            width: 2.4rem !important;
+            min-width: 2.4rem !important;
+            max-width: 2.4rem !important;
+        }}
+
+        /* Input column — fills remaining space, but with a max */
         div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(2) {{
             flex: 1 1 auto !important;
             width: auto !important;
             min-width: 0 !important;
+            max-width: calc(100% - 6rem) !important;
         }}
 
+        /* Send column — fixed small */
         div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(3) {{
-            flex: 0 0 auto !important;
-            width: 3.6rem !important;
-            min-width: 3.6rem !important;
+            width: 3.2rem !important;
+            min-width: 3.2rem !important;
+            max-width: 3.2rem !important;
         }}
 
+        /* Camera popover button */
         div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] > button {{
-            width: 2.6rem !important;
-            min-width: 2.6rem !important;
-            height: 2.6rem !important;
+            width: 2.2rem !important;
+            min-width: 2.2rem !important;
+            height: 2.2rem !important;
+            border: none !important;
+            background: transparent !important;
+            box-shadow: none !important;
         }}
 
+        /* Camera popover text inside button (emoji) */
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] button p {{
+            font-size: 1.1rem !important;
+            line-height: 1 !important;
+        }}
+
+        /* Text input */
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput {{
+            width: 100% !important;
+        }}
         div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput input {{
-            padding: 0.6rem 0.5rem !important;
+            padding: 0.5rem 0.4rem !important;
             font-size: 0.85rem !important;
+            border: none !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            height: 2.4rem !important;
         }}
 
+        /* Send button */
         div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stButton > button {{
-            width: 3.4rem !important;
-            min-width: 3.4rem !important;
-            height: 2.6rem !important;
+            width: 2.8rem !important;
+            min-width: 2.8rem !important;
+            height: 2.4rem !important;
             padding: 0 !important;
-            font-size: 0.75rem !important;
-            border-radius: 24px !important;
+            font-size: 0.7rem !important;
+            border-radius: 20px !important;
+            background-color: #2D3B2D !important;
+            color: white !important;
+            border: none !important;
         }}
     }}
 </style>
