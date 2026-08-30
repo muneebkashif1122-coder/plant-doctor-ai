@@ -231,89 +231,79 @@ st.markdown(f"""
     }}
 
     @media (max-width: 768px) {{
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] {{
-            left: 50% !important;
-            width: 92vw !important;
-            max-width: 92vw !important;
-            bottom: 1rem !important;
-            flex-wrap: wrap !important;
-            row-gap: 0.4rem !important;
-        }}
-
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(1) {{
-            flex: 0 0 15% !important;
-        }}
-
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(2) {{
-            flex: 0 0 82% !important;
-        }}
-
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(3) {{
-            flex: 0 0 100% !important;
-        }}
-
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stButton > button {{
-            width: 100% !important;
-            border-radius: 20px !important;
-        }}
-    }}
-    
-    .result-header {{
-        background-color: #FFFFFF;
-        border: 1px solid #ECE4D3;
-        border-radius: 16px;
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
+    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] {{
+        left: 50% !important;
+        width: 96vw !important;
+        max-width: 96vw !important;
+        bottom: 0.5rem !important;
+        flex-direction: row !important;      /* ← force row */
+        flex-wrap: nowrap !important;        /* ← wrap nahi hona */
+        gap: 0.2rem !important;
+        padding: 0.15rem 0.3rem !important;
+        border-radius: 28px !important;
+        background-color: #FFFFFF !important;
+        border: 2px solid #E4DCC8 !important;
     }}
 
-    .result-plant-name {{
-        font-family: 'Playfair Display', serif;
-        font-size: 1.8rem;
-        font-weight: 600;
-        color: #2D3B2D;
+    /* Camera column — fixed small width */
+    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(1) {{
+        flex: 0 0 2.4rem !important;
+        min-width: 2.4rem !important;
     }}
 
-    .result-scientific-name {{
-        font-family: 'Karla', sans-serif;
-        font-style: italic;
-        color: #8A9389;
-        font-size: 1rem;
-        margin-bottom: 0.5rem;
+    /* Text input column — takes remaining space */
+    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(2) {{
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
     }}
 
-    .confidence-badge {{
-        display: inline-block;
-        background-color: #EAF2EC;
-        color: #4A7856;
-        font-family: 'Karla', sans-serif;
-        font-weight: 600;
-        font-size: 0.8rem;
-        padding: 0.25rem 0.7rem;
-        border-radius: 20px;
+    /* Send button column — fixed small width */
+    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(3) {{
+        flex: 0 0 2.8rem !important;
+        min-width: 2.8rem !important;
     }}
 
-    .care-item {{
-        background-color: #FFFFFF;
-        border: 1px solid #ECE4D3;
-        border-radius: 12px;
-        padding: 1rem 1.2rem;
-        margin-bottom: 0.7rem;
+    /* Camera popover button — small circle */
+    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] button {{
+        width: 2.2rem !important;
+        height: 2.2rem !important;
+        min-width: 2.2rem !important;
+        background-size: 16px 16px !important;
+        border: none !important;
+        background-color: transparent !important;
     }}
 
-    .care-label {{
-        font-family: 'Karla', sans-serif;
-        font-weight: 700;
-        color: #2D3B2D;
-        font-size: 0.9rem;
-        margin-bottom: 0.2rem;
+    /* Text input — compact */
+    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput input {{
+        font-size: 0.8rem !important;
+        padding: 0.3rem 0.4rem !important;
+        height: 2.4rem !important;
+        border: none !important;
+        background: transparent !important;
     }}
 
-    .care-value {{
-        font-family: 'Karla', sans-serif;
-        color: #5C6B5D;
-        font-size: 0.9rem;
-        line-height: 1.4;
+    /* Send button — small circle with icon only */
+    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stButton > button {{
+        background-color: #2D3B2D !important;
+        color: #FFFFFF !important;
+        border: none !important;
+        border-radius: 50% !important;
+        width: 2.4rem !important;
+        height: 2.4rem !important;
+        min-width: 2.4rem !important;
+        padding: 0 !important;
+        font-size: 0 !important;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='22' y1='2' x2='11' y2='13'%3E%3C/line%3E%3Cpolygon points='22 2 15 22 11 13 2 9 22 2'/%3E%3C/svg%3E") !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        background-size: 14px 14px !important;
     }}
+
+    /* Hide "Send" text inside button */
+    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stButton > button p {{
+        display: none !important;
+    }}
+}}
 </style>
 """, unsafe_allow_html=True)
 
