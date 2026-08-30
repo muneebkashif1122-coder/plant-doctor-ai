@@ -231,50 +231,43 @@ st.markdown(f"""
     }}
 
     @media (max-width: 768px) {{
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] {{
-        left: 50% !important;
-        width: 96vw !important;
-        max-width: 96vw !important;
-        bottom: 0.5rem !important;
-        flex-direction: row !important;      /* ← force row */
-        flex-wrap: nowrap !important;        /* ← wrap nahi hona */
+    /* Directly target the search bar row by its data-testid */
+    div[data-testid="stHorizontalBlock"]:nth-of-type(1) {{
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
         gap: 0.2rem !important;
         padding: 0.15rem 0.3rem !important;
         border-radius: 28px !important;
         background-color: #FFFFFF !important;
         border: 2px solid #E4DCC8 !important;
+        width: 96vw !important;
+        max-width: 96vw !important;
+        position: fixed !important;
+        bottom: 0.5rem !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        z-index: 999 !important;
     }}
 
-    /* Camera column — fixed small width */
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(1) {{
+    /* Camera column */
+    div[data-testid="stHorizontalBlock"]:nth-of-type(1) > div:first-child {{
         flex: 0 0 2.4rem !important;
         min-width: 2.4rem !important;
     }}
 
-    /* Text input column — takes remaining space */
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(2) {{
+    /* Text input column */
+    div[data-testid="stHorizontalBlock"]:nth-of-type(1) > div:nth-child(2) {{
         flex: 1 1 auto !important;
         min-width: 0 !important;
     }}
 
-    /* Send button column — fixed small width */
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(3) {{
+    /* Send button column */
+    div[data-testid="stHorizontalBlock"]:nth-of-type(1) > div:last-child {{
         flex: 0 0 2.8rem !important;
         min-width: 2.8rem !important;
     }}
 
-    /* Camera popover button — small circle */
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] button {{
-        width: 2.2rem !important;
-        height: 2.2rem !important;
-        min-width: 2.2rem !important;
-        background-size: 16px 16px !important;
-        border: none !important;
-        background-color: transparent !important;
-    }}
-
-    /* Text input — compact */
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput input {{
+    div[data-testid="stHorizontalBlock"]:nth-of-type(1) .stTextInput input {{
         font-size: 0.8rem !important;
         padding: 0.3rem 0.4rem !important;
         height: 2.4rem !important;
@@ -282,8 +275,7 @@ st.markdown(f"""
         background: transparent !important;
     }}
 
-    /* Send button — small circle with icon only */
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stButton > button {{
+    div[data-testid="stHorizontalBlock"]:nth-of-type(1) .stButton > button {{
         background-color: #2D3B2D !important;
         color: #FFFFFF !important;
         border: none !important;
@@ -299,9 +291,16 @@ st.markdown(f"""
         background-size: 14px 14px !important;
     }}
 
-    /* Hide "Send" text inside button */
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stButton > button p {{
+    div[data-testid="stHorizontalBlock"]:nth-of-type(1) .stButton > button p {{
         display: none !important;
+    }}
+
+    div[data-testid="stHorizontalBlock"]:nth-of-type(1) div[data-testid="stPopover"] button {{
+        width: 2.2rem !important;
+        height: 2.2rem !important;
+        min-width: 2.2rem !important;
+        border: none !important;
+        background: transparent !important;
     }}
 }}
 </style>
