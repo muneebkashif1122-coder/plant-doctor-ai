@@ -257,38 +257,7 @@ st.markdown(f"""
             border-radius: 20px !important;
         }}
     }}
-
-    /* Camera icon from downloaded SVG file */
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] button p {{
-        display: none !important;
-    }}
-     /* Hide Streamlit's automatic dropdown chevron on the popover button */
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] button svg {{
-        display: none !important;
-    }}
-
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] button {{
-        background-image: url("{camera_icon_uri}") !important;
-        background-repeat: no-repeat !important;
-        background-position: center !important;
-        background-size: 20px 20px !important;
-    }}
-
-    /* Search icon from downloaded SVG file, placed before "Send" text */
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stButton > button {{
-        background-color: #2D3B2D !important;
-        color: #FFFFFF !important;
-        border: none !important;
-        border-radius: 24px !important;
-        font-weight: 600 !important;
-        height: 3rem !important;
-        background-image: url("{search_icon_uri}") !important;
-        background-repeat: no-repeat !important;
-        background-position: 12px center !important;
-        background-size: 16px 16px !important;
-        padding-left: 34px !important;
-    }}
-
+    
     .result-header {{
         background-color: #FFFFFF;
         border: 1px solid #ECE4D3;
