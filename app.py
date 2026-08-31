@@ -16,11 +16,9 @@ st.set_page_config(
 )
 
 # ===== VIEWPORT FIX: Force mobile browsers to use actual device width =====
-# This ensures our @media (max-width: 768px) rules work on real phones.
 st.markdown("""
 <script>
     (function() {
-        // Ensure viewport meta tag is set to device-width
         var meta = document.querySelector('meta[name=viewport]');
         if (meta) {
             meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
@@ -166,77 +164,8 @@ st.markdown(f"""
         vertical-align: middle;
     }}
 
-    .stTextInput > div > div > input {{
-        font-family: 'Karla', sans-serif;
-        border-radius: 24px;
-        border: 2px solid #E4DCC8;
-        padding: 0.85rem 1.2rem;
-        font-size: 1rem;
-        background-color: #FFFFFF;
-    }}
-
-    .stTextInput > div > div > input:focus {{
-        border-color: #4A7856;
-    }}
-
-    div[data-testid="stPopover"] > button {{
-        border-radius: 50% !important;
-        width: 3rem !important;
-        height: 3rem !important;
-        padding: 0 !important;
-        font-size: 1.2rem !important;
-        border: 2px solid #E4DCC8 !important;
-        background-color: #FFFFFF !important;
-    }}
-
-    div[data-testid="stPopoverBody"] .stButton > button {{
-        border-radius: 12px !important;
-        width: 100% !important;
-        background-color: #FFFFFF !important;
-        color: #2D3B2D !important;
-        border: 1px solid #ECE4D3 !important;
-        justify-content: flex-start !important;
-        text-align: left !important;
-        font-weight: 500 !important;
-    }}
-
-    /* ===== SEARCH BAR — both possible Streamlit DOM shapes are targeted
-       (older versions use class "element-container", newer ones use
-       data-testid="stElementContainer") so this keeps working across
-       Streamlit updates. ===== */
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"],
-    div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] {{
-        gap: 0 !important;
-        background-color: #FFFFFF;
-        border: 2px solid #E4DCC8;
-        border-radius: 28px;
-        box-shadow: 0 4px 16px rgba(45, 59, 45, 0.12);
-        align-items: center;
-        padding: 0.2rem;
-        position: fixed;
-        bottom: 2rem;
-        left: calc(50% + 168px);
-        transform: translateX(-50%);
-        width: 640px;
-        max-width: 85vw;
-        z-index: 999;
-    }}
-
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput > div > div > input,
-    div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput > div > div > input {{
-        border: none !important;
-        background: transparent !important;
-        box-shadow: none !important;
-        border-radius: 0 !important;
-    }}
-
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"],
-    div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"] {{
-        background: transparent !important;
-    }}
-
-@media (max-width: 768px) {{
-    /* ----- SEARCH BAR — FINAL FIX: simple flex, no transform guesswork ----- */
+    /* ===== SEARCH BAR — SINGLE ROW ON ALL SCREENS (like ChatGPT) ===== */
+    /* No media query needed — works on desktop AND mobile equally */
     div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"],
     div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] {{
         display: flex !important;
@@ -244,30 +173,37 @@ st.markdown(f"""
         flex-wrap: nowrap !important;
         align-items: center !important;
         gap: 0.2rem !important;
-        background: #FFFFFF !important;
-        border: 2px solid #E4DCC8 !important;
-        border-radius: 28px !important;
-        padding: 0.1rem 0.4rem !important;
-        position: fixed !important;
-        bottom: 0.8rem !important;
-        left: 2.5% !important;
-        width: 95% !important;
-        max-width: 95% !important;
-        box-sizing: border-box !important;
-        z-index: 999 !important;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.08) !important;
-        overflow: hidden !important;
+        background-color: #FFFFFF;
+        border: 2px solid #E4DCC8;
+        border-radius: 28px;
+        box-shadow: 0 4px 16px rgba(45, 59, 45, 0.12);
+        padding: 0.1rem 0.3rem;
+        position: fixed;
+        bottom: 0.8rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 95vw;
+        max-width: 640px;
+        z-index: 999;
+        box-sizing: border-box;
     }}
 
-    /* Camera column - fixed small size */
+    /* All columns: remove default backgrounds */
+    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"],
+    div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"] {{
+        background: transparent !important;
+        min-width: 0 !important;
+    }}
+
+    /* Camera column — fixed small size */
     div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"]:nth-child(1),
     div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"]:nth-child(1) {{
-        flex: 0 0 auto !important;
-        width: 2.4rem !important;
+        flex: 0 0 2.4rem !important;
         min-width: 2.4rem !important;
+        width: 2.4rem !important;
     }}
 
-    /* Input column - takes ALL remaining space, can shrink to 0 */
+    /* Input column — takes ALL remaining space, can shrink to 0 if needed */
     div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"]:nth-child(2),
     div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"]:nth-child(2) {{
         flex: 1 1 0 !important;
@@ -275,15 +211,15 @@ st.markdown(f"""
         width: auto !important;
     }}
 
-    /* Send column - fixed small size */
+    /* Send column — fixed small size */
     div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"]:nth-child(3),
     div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"]:nth-child(3) {{
-        flex: 0 0 auto !important;
-        width: 2.8rem !important;
+        flex: 0 0 2.8rem !important;
         min-width: 2.8rem !important;
+        width: 2.8rem !important;
     }}
 
-    /* Input box styling */
+    /* Input box itself */
     div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput,
     div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput {{
         width: 100% !important;
@@ -300,7 +236,7 @@ st.markdown(f"""
         box-shadow: none !important;
     }}
 
-    /* Camera (Popover) button */
+    /* Camera popover button */
     div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] > button,
     div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] > button {{
         width: 2.2rem !important;
@@ -311,11 +247,16 @@ st.markdown(f"""
         background: transparent !important;
         box-shadow: none !important;
     }}
+    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] button p,
+    div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] button p {{
+        font-size: 1.1rem !important;
+    }}
 
-    /* Send button - arrow icon */
+    /* Send button — icon-only circle with arrow */
     div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stButton > button,
     div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stButton > button {{
         background-color: #2D3B2D !important;
+        color: #FFFFFF !important;
         border: none !important;
         border-radius: 50% !important;
         width: 2.4rem !important;
@@ -328,12 +269,10 @@ st.markdown(f"""
         background-position: center !important;
         background-size: 14px 14px !important;
     }}
-
     div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stButton > button p,
     div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stButton > button p {{
         display: none !important;
     }}
-}}
 
     .result-header {{
         background-color: #FFFFFF;
@@ -577,9 +516,6 @@ def display_care_guide(common_name, scientific_name, confidence, care_guide):
         """, unsafe_allow_html=True)
 
     # ----- Download Guide Button -----
-    # Build a clean, plain-text version of the guide for downloading.
-    # This is separate from the HTML displayed above -- a text file
-    # shouldn't contain HTML tags or emoji formatting artifacts.
     guide_text_lines = [
         f"PLANT DOCTOR AI - CARE GUIDE",
         f"=" * 40,
