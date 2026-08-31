@@ -19,17 +19,17 @@ st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,500&family=Karla:wght@400;500;600;700&display=swap');
 
-    .stApp {
-        background-color: #FAF7F0;
-        overflow-x: hidden;
-    }
-
     html, body,
+    .stApp,
     section[data-testid="stMain"],
     div[data-testid="stMainBlockContainer"],
     div[data-testid="stAppViewBlockContainer"] {
         overflow-x: hidden !important;
         max-width: 100vw !important;
+    }
+
+    .stApp {
+        background-color: #FAF7F0;
     }
 
     .block-container {
@@ -166,35 +166,52 @@ st.markdown("""
         font-weight: 500 !important;
     }
 
-    /* ----- Search bar: uses Streamlit's official container "key" feature,
-       which produces a stable class name (.st-key-searchbar) that renders
-       identically both locally and on Streamlit Cloud. ----- */
-    .st-key-searchbar [data-testid="stHorizontalBlock"] {
-        gap: 0 !important;
+    /* =====================================================================
+       SEARCH BAR
+       Uses Streamlit's official container "key" feature (st.container(key=...))
+       which produces a stable, real CSS class (.st-key-searchbar) that works
+       identically on localhost AND on Streamlit Cloud -- unlike fragile
+       CSS hacks based on DOM position or :has() tricks.
+
+       Layout is forced into one row (flex-wrap: nowrap) at every screen size,
+       so it never stacks or breaks onto multiple lines on mobile.
+       ===================================================================== */
+
+    .st-key-searchbar > div {
         background-color: #FFFFFF;
         border: 2px solid #E4DCC8;
         border-radius: 28px;
         box-shadow: 0 1px 4px rgba(45, 59, 45, 0.06);
-        align-items: center;
         padding: 0.25rem;
+    }
+
+    .st-key-searchbar [data-testid="stHorizontalBlock"] {
+        gap: 0 !important;
+        align-items: center !important;
         flex-wrap: nowrap !important;
     }
 
+    /* Camera column: small, fixed width, never grows or shrinks */
     .st-key-searchbar [data-testid="stColumn"]:nth-child(1) {
-        flex: 0 0 auto !important;
+        flex: 0 0 2.8rem !important;
         width: 2.8rem !important;
+        max-width: 2.8rem !important;
     }
 
+    /* Text input column: takes all remaining space */
     .st-key-searchbar [data-testid="stColumn"]:nth-child(2) {
         flex: 1 1 auto !important;
         min-width: 0 !important;
     }
 
+    /* Send column: small, fixed width, never grows or shrinks */
     .st-key-searchbar [data-testid="stColumn"]:nth-child(3) {
-        flex: 0 0 auto !important;
+        flex: 0 0 2.8rem !important;
         width: 2.8rem !important;
+        max-width: 2.8rem !important;
     }
 
+    /* Camera button: circular, transparent, centered emoji, no chevron */
     .st-key-searchbar div[data-testid="stPopover"] > button {
         border: none !important;
         background: transparent !important;
@@ -203,18 +220,37 @@ st.markdown("""
         width: 2.6rem !important;
         height: 2.6rem !important;
         min-width: 2.6rem !important;
+        max-width: 2.6rem !important;
         padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }
 
+    /* Streamlit auto-adds a dropdown chevron SVG to popover buttons --
+       hide it so the camera button is a clean, uniform circle like Send */
+    .st-key-searchbar div[data-testid="stPopover"] > button svg {
+        display: none !important;
+    }
+
+    .st-key-searchbar div[data-testid="stPopover"] > button p {
+        margin: 0 !important;
+        line-height: 1 !important;
+        font-size: 1.1rem !important;
+    }
+
+    /* Text input: borderless, blends into the pill container */
     .st-key-searchbar .stTextInput > div > div > input {
         border: none !important;
         background: transparent !important;
         box-shadow: none !important;
         border-radius: 0 !important;
-        padding: 0.6rem 0.3rem !important;
-        font-size: 0.9rem !important;
+        padding: 0.6rem 0.4rem !important;
+        font-size: 0.95rem !important;
+        font-family: 'Karla', sans-serif !important;
     }
 
+    /* Send button: identical circular size/shape to the camera button */
     .st-key-searchbar .stButton > button {
         background-color: #2D3B2D !important;
         color: #FFFFFF !important;
@@ -223,41 +259,41 @@ st.markdown("""
         width: 2.6rem !important;
         height: 2.6rem !important;
         min-width: 2.6rem !important;
+        max-width: 2.6rem !important;
         padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
         font-size: 1.1rem !important;
     }
-        /* Mobile fix: shrink the search bar's inner elements so nothing overlaps
-       or overflows the screen width on small devices */
+
+    .st-key-searchbar .stButton > button p {
+        margin: 0 !important;
+        line-height: 1 !important;
+    }
+
+    /* Mobile: shrink everything slightly so it comfortably fits narrow screens,
+       but keep the exact same one-line layout and matching button sizes */
     @media (max-width: 600px) {
-        .st-key-searchbar [data-testid="stHorizontalBlock"] {
-            padding: 0.15rem !important;
-        }
-
-        .st-key-searchbar [data-testid="stColumn"]:nth-child(1) {
-            width: 2.2rem !important;
-        }
-
+        .st-key-searchbar [data-testid="stColumn"]:nth-child(1),
         .st-key-searchbar [data-testid="stColumn"]:nth-child(3) {
-            width: 2.2rem !important;
+            flex: 0 0 2.3rem !important;
+            width: 2.3rem !important;
+            max-width: 2.3rem !important;
         }
 
-        .st-key-searchbar div[data-testid="stPopover"] > button {
-            width: 2rem !important;
-            height: 2rem !important;
-            min-width: 2rem !important;
-            font-size: 0.85rem !important;
-        }
-
+        .st-key-searchbar div[data-testid="stPopover"] > button,
         .st-key-searchbar .stButton > button {
-            width: 2rem !important;
-            height: 2rem !important;
-            min-width: 2rem !important;
-            font-size: 0.85rem !important;
+            width: 2.1rem !important;
+            height: 2.1rem !important;
+            min-width: 2.1rem !important;
+            max-width: 2.1rem !important;
+            font-size: 0.95rem !important;
         }
 
         .st-key-searchbar .stTextInput > div > div > input {
-            font-size: 0.8rem !important;
-            padding: 0.5rem 0.2rem !important;
+            font-size: 0.82rem !important;
+            padding: 0.5rem 0.3rem !important;
         }
 
         .block-container {
@@ -433,7 +469,7 @@ def show_home_screen():
     st.write("")
 
     with st.container(key="searchbar"):
-        col_camera, col_input, col_send = st.columns([1, 6, 2], vertical_alignment="center")
+        col_camera, col_input, col_send = st.columns([1, 6, 1], vertical_alignment="center")
 
         with col_camera:
             with st.popover("📷", use_container_width=True):
