@@ -4,7 +4,6 @@ app.py
 Main Streamlit application file. This is the entry point of Plant Doctor AI.
 """
 
-import base64
 import streamlit as st
 from api import identify_plant, generate_care_guide, identify_plant_from_text
 from utils import get_top_matches
@@ -15,52 +14,35 @@ st.set_page_config(
     layout="wide"
 )
 
-# ===== VIEWPORT FIX: Force mobile browsers to use actual device width =====
-st.markdown("""
-<script>
-    (function() {
-        var meta = document.querySelector('meta[name=viewport]');
-        if (meta) {
-            meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
-        } else {
-            var newMeta = document.createElement('meta');
-            newMeta.name = 'viewport';
-            newMeta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
-            document.head.appendChild(newMeta);
-        }
-    })();
-</script>
-""", unsafe_allow_html=True)
-
 # ----- Custom Styling -----
-st.markdown(f"""
+st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,500&family=Karla:wght@400;500;600;700&display=swap');
 
-    .stApp {{
+    .stApp {
         background-color: #FAF7F0;
-    }}
+    }
 
-    .block-container {{
+    .block-container {
         max-width: 900px;
         padding-top: 2.5rem;
         padding-bottom: 6rem;
-    }}
+    }
 
-    [data-testid="stSidebar"] {{
+    [data-testid="stSidebar"] {
         background-color: #FFFDF9;
         border-right: 1px solid #ECE4D3;
-    }}
+    }
 
-    .sidebar-logo {{
+    .sidebar-logo {
         font-family: 'Playfair Display', serif;
         font-size: 1.3rem;
         font-weight: 600;
         color: #2D3B2D;
         margin-bottom: 1.5rem;
-    }}
+    }
 
-    .sidebar-section-label {{
+    .sidebar-section-label {
         font-family: 'Karla', sans-serif;
         font-size: 0.72rem;
         letter-spacing: 0.06em;
@@ -68,16 +50,16 @@ st.markdown(f"""
         font-weight: 700;
         margin: 1.2rem 0 0.6rem 0;
         text-transform: uppercase;
-    }}
+    }
 
-    .recent-item {{
+    .recent-item {
         font-family: 'Karla', sans-serif;
         font-size: 0.9rem;
         color: #4A5A4C;
         padding: 0.35rem 0;
-    }}
+    }
 
-    [data-testid="stSidebar"] .stButton > button {{
+    [data-testid="stSidebar"] .stButton > button {
         background-color: #2D3B2D !important;
         color: #FFFFFF !important;
         border: none !important;
@@ -86,27 +68,27 @@ st.markdown(f"""
         font-family: 'Karla', sans-serif !important;
         font-weight: 600 !important;
         width: 100% !important;
-    }}
+    }
 
-    [data-testid="stSidebar"] .stButton > button:hover {{
+    [data-testid="stSidebar"] .stButton > button:hover {
         background-color: #3D4E3D !important;
-    }}
+    }
 
-    .hero-heading {{
+    .hero-heading {
         font-family: 'Playfair Display', serif;
         font-size: 2.6rem;
         font-weight: 600;
         color: #2D3B2D;
         text-align: center;
         margin-bottom: 0.6rem;
-    }}
+    }
 
-    .hero-heading em {{
+    .hero-heading em {
         color: #8A8F5C;
         font-style: italic;
-    }}
+    }
 
-    .hero-subtext {{
+    .hero-subtext {
         font-family: 'Karla', sans-serif;
         color: #6B7566;
         text-align: center;
@@ -114,9 +96,9 @@ st.markdown(f"""
         max-width: 520px;
         margin: 0 auto 2.4rem auto;
         line-height: 1.5;
-    }}
+    }
 
-    .feature-card {{
+    .feature-card {
         background-color: #FFFFFF;
         border: 1px solid #ECE4D3;
         border-radius: 14px;
@@ -126,32 +108,32 @@ st.markdown(f"""
         gap: 0.9rem;
         margin-bottom: 1rem;
         box-shadow: 0 1px 3px rgba(45, 59, 45, 0.05);
-    }}
+    }
 
-    .feature-card.disabled {{
+    .feature-card.disabled {
         opacity: 0.55;
-    }}
+    }
 
-    .feature-icon {{
+    .feature-icon {
         font-size: 1.6rem;
         line-height: 1;
-    }}
+    }
 
-    .feature-title {{
+    .feature-title {
         font-family: 'Karla', sans-serif;
         font-weight: 700;
         color: #2D3B2D;
         font-size: 1rem;
         margin-bottom: 0.15rem;
-    }}
+    }
 
-    .feature-desc {{
+    .feature-desc {
         font-family: 'Karla', sans-serif;
         color: #8A9389;
         font-size: 0.85rem;
-    }}
+    }
 
-    .coming-soon-badge {{
+    .coming-soon-badge {
         display: inline-block;
         font-size: 0.65rem;
         font-family: 'Karla', sans-serif;
@@ -162,142 +144,148 @@ st.markdown(f"""
         border-radius: 20px;
         margin-left: 0.4rem;
         vertical-align: middle;
-    }}
+    }
 
-    /* ===== SEARCH BAR — SINGLE ROW ON ALL SCREENS (like ChatGPT) ===== */
-    /* No media query needed — works on desktop AND mobile equally */
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"],
-    div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] {{
-        display: flex !important;
-        flex-direction: row !important;
-        flex-wrap: nowrap !important;
-        align-items: center !important;
-        gap: 0.2rem !important;
+    .stTextInput > div > div > input {
+        font-family: 'Karla', sans-serif;
+        border-radius: 24px;
+        border: 2px solid #E4DCC8;
+        padding: 0.85rem 1.2rem;
+        font-size: 1rem;
+        background-color: #FFFFFF;
+    }
+
+    .stTextInput > div > div > input:focus {
+        border-color: #4A7856;
+    }
+
+    div[data-testid="stPopover"] > button {
+        border-radius: 50% !important;
+        width: 3rem !important;
+        height: 3rem !important;
+        padding: 0 !important;
+        font-size: 1.2rem !important;
+        border: 2px solid #E4DCC8 !important;
+        background-color: #FFFFFF !important;
+    }
+
+    div[data-testid="stPopoverBody"] .stButton > button {
+        border-radius: 12px !important;
+        width: 100% !important;
+        background-color: #FFFFFF !important;
+        color: #2D3B2D !important;
+        border: 1px solid #ECE4D3 !important;
+        justify-content: flex-start !important;
+        text-align: left !important;
+        font-weight: 500 !important;
+    }
+
+    .send-btn > button {
+        background-color: #2D3B2D !important;
+        color: #FFFFFF !important;
+        border: none !important;
+        border-radius: 24px !important;
+        font-weight: 600 !important;
+        width: 100% !important;
+        height: 3rem !important;
+    }
+
+    .send-btn > button:hover {
+        background-color: #3D4E3D !important;
+    }
+
+    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] {
+        gap: 0 !important;
         background-color: #FFFFFF;
         border: 2px solid #E4DCC8;
         border-radius: 28px;
         box-shadow: 0 4px 16px rgba(45, 59, 45, 0.12);
-        padding: 0.1rem 0.3rem;
+        align-items: center;
+        padding: 0.2rem;
         position: fixed;
-        bottom: 0.8rem;
-        left: 50%;
+        bottom: 2rem;
+        left: calc(50% + 168px);
         transform: translateX(-50%);
-        width: 95vw;
-        max-width: 640px;
+        width: 640px;
+        max-width: 85vw;
         z-index: 999;
-        box-sizing: border-box;
-    }}
+    }
 
-    /* All columns: remove default backgrounds */
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"],
-    div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"] {{
-        background: transparent !important;
-        min-width: 0 !important;
-    }}
-
-    /* Camera column — fixed small size */
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"]:nth-child(1),
-    div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"]:nth-child(1) {{
-        flex: 0 0 2.4rem !important;
-        min-width: 2.4rem !important;
-        width: 2.4rem !important;
-    }}
-
-    /* Input column — takes ALL remaining space, can shrink to 0 if needed */
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"]:nth-child(2),
-    div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"]:nth-child(2) {{
-        flex: 1 1 0 !important;
-        min-width: 0 !important;
-        width: auto !important;
-    }}
-
-    /* Send column — fixed small size */
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"]:nth-child(3),
-    div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid*="olumn"]:nth-child(3) {{
-        flex: 0 0 2.8rem !important;
-        min-width: 2.8rem !important;
-        width: 2.8rem !important;
-    }}
-
-    /* Input box itself */
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput,
-    div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput {{
-        width: 100% !important;
-    }}
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput input,
-    div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput input {{
-        width: 100% !important;
-        min-width: 0 !important;
-        height: 2.4rem !important;
-        padding: 0 0.2rem !important;
-        font-size: 0.85rem !important;
+    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] > button {
         border: none !important;
         background: transparent !important;
         box-shadow: none !important;
-    }}
-
-    /* Camera popover button */
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] > button,
-    div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] > button {{
-        width: 2.2rem !important;
-        height: 2.2rem !important;
-        min-width: auto !important;
-        padding: 0 !important;
-        border: none !important;
-        background: transparent !important;
-        box-shadow: none !important;
-    }}
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] button p,
-    div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] button p {{
-        font-size: 1.1rem !important;
-    }}
-
-    /* Send button — icon-only circle with arrow */
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stButton > button,
-    div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stButton > button {{
-        background-color: #2D3B2D !important;
-        color: #FFFFFF !important;
-        border: none !important;
         border-radius: 50% !important;
-        width: 2.4rem !important;
-        height: 2.4rem !important;
-        min-width: 2.4rem !important;
-        padding: 0 !important;
-        font-size: 0 !important;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='22' y1='2' x2='11' y2='13'%3E%3C/line%3E%3Cpolygon points='22 2 15 22 11 13 2 9 22 2'/%3E%3C/svg%3E") !important;
-        background-repeat: no-repeat !important;
-        background-position: center !important;
-        background-size: 14px 14px !important;
-    }}
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stButton > button p,
-    div[data-testid="stElementContainer"]:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stButton > button p {{
-        display: none !important;
-    }}
+    }
 
-    .result-header {{
+    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput > div > div > input {
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+    }
+
+    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .send-btn > button {
+        border-radius: 24px !important;
+        box-shadow: none !important;
+    }
+
+    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {
+        background: transparent !important;
+    }
+
+    @media (max-width: 768px) {
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] {
+            left: 50% !important;
+            width: 92vw !important;
+            max-width: 92vw !important;
+            bottom: 1rem !important;
+            flex-wrap: wrap !important;
+            row-gap: 0.4rem !important;
+        }
+
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(1) {
+            flex: 0 0 15% !important;
+        }
+
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(2) {
+            flex: 0 0 82% !important;
+        }
+
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(3) {
+            flex: 0 0 100% !important;
+        }
+
+        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .send-btn > button {
+            width: 100% !important;
+            border-radius: 20px !important;
+        }
+    }
+
+    .result-header {
         background-color: #FFFFFF;
         border: 1px solid #ECE4D3;
         border-radius: 16px;
         padding: 1.5rem;
         margin-bottom: 1.5rem;
-    }}
+    }
 
-    .result-plant-name {{
+    .result-plant-name {
         font-family: 'Playfair Display', serif;
         font-size: 1.8rem;
         font-weight: 600;
         color: #2D3B2D;
-    }}
+    }
 
-    .result-scientific-name {{
+    .result-scientific-name {
         font-family: 'Karla', sans-serif;
         font-style: italic;
         color: #8A9389;
         font-size: 1rem;
         margin-bottom: 0.5rem;
-    }}
+    }
 
-    .confidence-badge {{
+    .confidence-badge {
         display: inline-block;
         background-color: #EAF2EC;
         color: #4A7856;
@@ -306,30 +294,30 @@ st.markdown(f"""
         font-size: 0.8rem;
         padding: 0.25rem 0.7rem;
         border-radius: 20px;
-    }}
+    }
 
-    .care-item {{
+    .care-item {
         background-color: #FFFFFF;
         border: 1px solid #ECE4D3;
         border-radius: 12px;
         padding: 1rem 1.2rem;
         margin-bottom: 0.7rem;
-    }}
+    }
 
-    .care-label {{
+    .care-label {
         font-family: 'Karla', sans-serif;
         font-weight: 700;
         color: #2D3B2D;
         font-size: 0.9rem;
         margin-bottom: 0.2rem;
-    }}
+    }
 
-    .care-value {{
+    .care-value {
         font-family: 'Karla', sans-serif;
         color: #5C6B5D;
         font-size: 0.9rem;
         line-height: 1.4;
-    }}
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -463,7 +451,9 @@ def show_home_screen():
         )
 
     with col_send:
+        st.markdown('<div class="send-btn">', unsafe_allow_html=True)
         search_clicked = st.button("🔍 Send", use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
     if (search_clicked or user_query) and user_query.strip():
         reset_diagnosis_state()
@@ -515,7 +505,6 @@ def display_care_guide(common_name, scientific_name, confidence, care_guide):
         </div>
         """, unsafe_allow_html=True)
 
-    # ----- Download Guide Button -----
     guide_text_lines = [
         f"PLANT DOCTOR AI - CARE GUIDE",
         f"=" * 40,
