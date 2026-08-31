@@ -24,6 +24,14 @@ st.markdown("""
         overflow-x: hidden;
     }
 
+    html, body,
+    section[data-testid="stMain"],
+    div[data-testid="stMainBlockContainer"],
+    div[data-testid="stAppViewBlockContainer"] {
+        overflow-x: hidden !important;
+        max-width: 100vw !important;
+    }
+
     .block-container {
         max-width: 900px;
         padding-top: 2.5rem;
