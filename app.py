@@ -245,7 +245,7 @@ st.markdown("""
             width: 2rem !important;
             height: 2rem !important;
             min-width: 2rem !important;
-            font-size: 0.9rem !important;
+            font-size: 0.85rem !important;
         }
 
         .st-key-searchbar .stButton > button {
