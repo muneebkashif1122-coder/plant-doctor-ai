@@ -21,6 +21,7 @@ st.markdown("""
 
     .stApp {
         background-color: #FAF7F0;
+        overflow-x: hidden;
     }
 
     .block-container {
@@ -216,6 +217,45 @@ st.markdown("""
         min-width: 2.6rem !important;
         padding: 0 !important;
         font-size: 1.1rem !important;
+    }
+        /* Mobile fix: shrink the search bar's inner elements so nothing overlaps
+       or overflows the screen width on small devices */
+    @media (max-width: 600px) {
+        .st-key-searchbar [data-testid="stHorizontalBlock"] {
+            padding: 0.15rem !important;
+        }
+
+        .st-key-searchbar [data-testid="stColumn"]:nth-child(1) {
+            width: 2.2rem !important;
+        }
+
+        .st-key-searchbar [data-testid="stColumn"]:nth-child(3) {
+            width: 2.2rem !important;
+        }
+
+        .st-key-searchbar div[data-testid="stPopover"] > button {
+            width: 2rem !important;
+            height: 2rem !important;
+            min-width: 2rem !important;
+            font-size: 0.9rem !important;
+        }
+
+        .st-key-searchbar .stButton > button {
+            width: 2rem !important;
+            height: 2rem !important;
+            min-width: 2rem !important;
+            font-size: 0.85rem !important;
+        }
+
+        .st-key-searchbar .stTextInput > div > div > input {
+            font-size: 0.8rem !important;
+            padding: 0.5rem 0.2rem !important;
+        }
+
+        .block-container {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+        }
     }
 
     .result-header {
