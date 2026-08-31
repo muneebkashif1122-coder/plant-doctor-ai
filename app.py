@@ -15,16 +15,6 @@ st.set_page_config(
     layout="wide"
 )
 
-# Force mobile browsers to use the real device width as the viewport.
-# Without this, phones often render the page at a default desktop-ish
-# width (~980px) and zoom it out to fit the screen — which means our
-# @media (max-width: 768px) rules never actually trigger, even though
-# the page LOOKS small on the phone screen.
-st.markdown(
-    '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">',
-    unsafe_allow_html=True
-)
-
 # ----- Custom Styling -----
 st.markdown(f"""
 <style>
