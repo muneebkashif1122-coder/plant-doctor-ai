@@ -26,7 +26,7 @@ st.markdown("""
     .block-container {
         max-width: 900px;
         padding-top: 2.5rem;
-        padding-bottom: 6rem;
+        padding-bottom: 3rem;
     }
 
     [data-testid="stSidebar"] {
@@ -146,29 +146,6 @@ st.markdown("""
         vertical-align: middle;
     }
 
-    .stTextInput > div > div > input {
-        font-family: 'Karla', sans-serif;
-        border-radius: 24px;
-        border: 2px solid #E4DCC8;
-        padding: 0.85rem 1.2rem;
-        font-size: 1rem;
-        background-color: #FFFFFF;
-    }
-
-    .stTextInput > div > div > input:focus {
-        border-color: #4A7856;
-    }
-
-    div[data-testid="stPopover"] > button {
-        border-radius: 50% !important;
-        width: 3rem !important;
-        height: 3rem !important;
-        padding: 0 !important;
-        font-size: 1.2rem !important;
-        border: 2px solid #E4DCC8 !important;
-        background-color: #FFFFFF !important;
-    }
-
     div[data-testid="stPopoverBody"] .stButton > button {
         border-radius: 12px !important;
         width: 100% !important;
@@ -180,86 +157,65 @@ st.markdown("""
         font-weight: 500 !important;
     }
 
-    .send-btn > button {
-        background-color: #2D3B2D !important;
-        color: #FFFFFF !important;
-        border: none !important;
-        border-radius: 24px !important;
-        font-weight: 600 !important;
-        width: 100% !important;
-        height: 3rem !important;
-    }
-
-    .send-btn > button:hover {
-        background-color: #3D4E3D !important;
-    }
-
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] {
+    /* ----- Search bar: uses Streamlit's official container "key" feature,
+       which produces a stable class name (.st-key-searchbar) that renders
+       identically both locally and on Streamlit Cloud. ----- */
+    .st-key-searchbar [data-testid="stHorizontalBlock"] {
         gap: 0 !important;
         background-color: #FFFFFF;
         border: 2px solid #E4DCC8;
         border-radius: 28px;
-        box-shadow: 0 4px 16px rgba(45, 59, 45, 0.12);
+        box-shadow: 0 1px 4px rgba(45, 59, 45, 0.06);
         align-items: center;
-        padding: 0.2rem;
-        position: fixed;
-        bottom: 2rem;
-        left: calc(50% + 168px);
-        transform: translateX(-50%);
-        width: 640px;
-        max-width: 85vw;
-        z-index: 999;
+        padding: 0.25rem;
+        flex-wrap: nowrap !important;
     }
 
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] div[data-testid="stPopover"] > button {
+    .st-key-searchbar [data-testid="stColumn"]:nth-child(1) {
+        flex: 0 0 auto !important;
+        width: 2.8rem !important;
+    }
+
+    .st-key-searchbar [data-testid="stColumn"]:nth-child(2) {
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+    }
+
+    .st-key-searchbar [data-testid="stColumn"]:nth-child(3) {
+        flex: 0 0 auto !important;
+        width: 2.8rem !important;
+    }
+
+    .st-key-searchbar div[data-testid="stPopover"] > button {
         border: none !important;
         background: transparent !important;
         box-shadow: none !important;
         border-radius: 50% !important;
+        width: 2.6rem !important;
+        height: 2.6rem !important;
+        min-width: 2.6rem !important;
+        padding: 0 !important;
     }
 
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .stTextInput > div > div > input {
+    .st-key-searchbar .stTextInput > div > div > input {
         border: none !important;
         background: transparent !important;
         box-shadow: none !important;
         border-radius: 0 !important;
+        padding: 0.6rem 0.3rem !important;
+        font-size: 0.9rem !important;
     }
 
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .send-btn > button {
-        border-radius: 24px !important;
-        box-shadow: none !important;
-    }
-
-    div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {
-        background: transparent !important;
-    }
-
-    @media (max-width: 768px) {
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] {
-            left: 50% !important;
-            width: 92vw !important;
-            max-width: 92vw !important;
-            bottom: 1rem !important;
-            flex-wrap: wrap !important;
-            row-gap: 0.4rem !important;
-        }
-
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(1) {
-            flex: 0 0 15% !important;
-        }
-
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(2) {
-            flex: 0 0 82% !important;
-        }
-
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(3) {
-            flex: 0 0 100% !important;
-        }
-
-        div.element-container:has(div.search-bar-marker) + div[data-testid="stHorizontalBlock"] .send-btn > button {
-            width: 100% !important;
-            border-radius: 20px !important;
-        }
+    .st-key-searchbar .stButton > button {
+        background-color: #2D3B2D !important;
+        color: #FFFFFF !important;
+        border: none !important;
+        border-radius: 50% !important;
+        width: 2.6rem !important;
+        height: 2.6rem !important;
+        min-width: 2.6rem !important;
+        padding: 0 !important;
+        font-size: 1.1rem !important;
     }
 
     .result-header {
@@ -427,33 +383,31 @@ def show_home_screen():
         """, unsafe_allow_html=True)
 
     st.write("")
-    st.markdown('<div class="search-bar-marker"></div>', unsafe_allow_html=True)
 
-    col_camera, col_input, col_send = st.columns([1, 6, 2], vertical_alignment="center")
+    with st.container(key="searchbar"):
+        col_camera, col_input, col_send = st.columns([1, 6, 2], vertical_alignment="center")
 
-    with col_camera:
-        with st.popover("📷", use_container_width=True):
-            st.markdown("**Add a photo**")
-            if st.button("📷  Take a Photo", use_container_width=True):
-                reset_diagnosis_state()
-                st.session_state.screen = "camera"
-                st.rerun()
-            if st.button("📁  Upload from Gallery", use_container_width=True):
-                reset_diagnosis_state()
-                st.session_state.screen = "upload"
-                st.rerun()
+        with col_camera:
+            with st.popover("📷", use_container_width=True):
+                st.markdown("**Add a photo**")
+                if st.button("📷  Take a Photo", use_container_width=True):
+                    reset_diagnosis_state()
+                    st.session_state.screen = "camera"
+                    st.rerun()
+                if st.button("📁  Upload from Gallery", use_container_width=True):
+                    reset_diagnosis_state()
+                    st.session_state.screen = "upload"
+                    st.rerun()
 
-    with col_input:
-        user_query = st.text_input(
-            "Search",
-            placeholder="Ask about a specific plant — Rose, gulab, or منی پلانٹ",
-            label_visibility="collapsed"
-        )
+        with col_input:
+            user_query = st.text_input(
+                "Search",
+                placeholder="Ask about a plant — Rose, gulab...",
+                label_visibility="collapsed"
+            )
 
-    with col_send:
-        st.markdown('<div class="send-btn">', unsafe_allow_html=True)
-        search_clicked = st.button("🔍 Send", use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+        with col_send:
+            search_clicked = st.button("🔍", use_container_width=True)
 
     if (search_clicked or user_query) and user_query.strip():
         reset_diagnosis_state()
