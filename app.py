@@ -15,6 +15,25 @@ st.set_page_config(
     layout="wide"
 )
 
+# ===== VIEWPORT FIX: Force mobile browsers to use actual device width =====
+# This ensures our @media (max-width: 768px) rules work on real phones.
+st.markdown("""
+<script>
+    (function() {
+        // Ensure viewport meta tag is set to device-width
+        var meta = document.querySelector('meta[name=viewport]');
+        if (meta) {
+            meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+        } else {
+            var newMeta = document.createElement('meta');
+            newMeta.name = 'viewport';
+            newMeta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+            document.head.appendChild(newMeta);
+        }
+    })();
+</script>
+""", unsafe_allow_html=True)
+
 # ----- Custom Styling -----
 st.markdown(f"""
 <style>
